@@ -655,6 +655,11 @@ export const getAvailableOperatorForFilter = (
   return getAvailableOperatorForFilterKey(filterDefinition);
 };
 
+export const useCompleteFilterKeysMap = () => {
+  const { filterKeysSchema } = useAuth().schema;
+  return filterKeysSchema;
+};
+
 export const useBuildFilterKeysMapFromEntityType = (entityTypes = ['Stix-Core-Object']): Map<string, FilterDefinition> => {
   const { filterKeysSchema } = useAuth().schema;
   // 1. case one entity type
@@ -856,4 +861,11 @@ export const convertOperatorToIcon = (operator: string) => {
     default:
       return null;
   }
+};
+
+export const extractAllFilters: (filters: FilterGroup) => Filter[] = (filters: FilterGroup) => {
+  const allFilters: Filter[] = [];
+  allFilters.push(...filters.filters);
+  filters.filterGroups.forEach((filterGroup) => extractAllFilters(filterGroup));
+  return allFilters;
 };
