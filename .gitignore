@@ -5,3 +5,5 @@
 .venv
 venv
 .vscode
+config.bat
+node_modules
